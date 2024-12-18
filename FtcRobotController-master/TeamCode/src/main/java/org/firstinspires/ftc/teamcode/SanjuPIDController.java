@@ -14,11 +14,6 @@ public class SanjuPIDController {
     private double lastError;
     private static final double MAX_INTEGRAL = 1000; // Adjust based on your system's needs
 
-    // declare Mathy Variables
-    private int ticksPerRotation = 8192;
-    double wheelCircumference = (Math.PI * 60)/25.4;
-    double ticksPerInch = (ticksPerRotation / wheelCircumference);
-
     public SanjuPIDController(double kP, double kI, double kD, double kF)
     {
         this.kP = kP;
@@ -31,27 +26,29 @@ public class SanjuPIDController {
 
     public SanjuPIDController(String type)
     {
-        if (type.equals("straight"))
-        {
-            this.kP = 0.00003;
-            this.kI = 0;
-            this.kD = 0;
-            this.kF = 0.2;
+        switch (type) {
+            case "straight":
+                this.kP = 0.00003;
+                this.kI = 0;
+                this.kD = 0;
+                this.kF = 0.2;
+                break;
+            case "strafe":
+                this.kP = 0.00003;
+                this.kI = 0;
+                this.kD = 0;
+                this.kF = 0.22;
+                break;
+            case "turn":
+                this.kP = 0.003;
+                this.kI = 0;
+                this.kD = 0;
+                this.kF = 0.15;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid type");
         }
-        if (type.equals("strafe"))
-        {
-            this.kP = 0.00003;
-            this.kI = 0;
-            this.kD = 0;
-            this.kF = 0.22;
-        }
-        if (type.equals("turn"))
-        {
-            this.kP = 0.003;
-            this.kI = 0;
-            this.kD = 0;
-            this.kF = 0.15;
-        }
+
         this.integralSum = 0;
         this.lastError = 0;
     }

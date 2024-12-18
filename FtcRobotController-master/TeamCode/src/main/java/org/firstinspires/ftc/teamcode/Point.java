@@ -1,24 +1,35 @@
 package org.firstinspires.ftc.teamcode;
 
+import androidx.annotation.NonNull;
+
 public class Point {
-    private final double x;
-    private final double y;
+    private double _x;
+    private double _y;
 
     public Point(double x, double y) {
-        this.x = x;
-        this.y = y;
+        this._x = x;
+        this._y = y;
     }
 
     public double getX() {
-        return x;
+        return _x;
     }
 
     public double getY() {
-        return y;
+        return _y;
     }
 
+    public void setX(double x) {
+        this._x = x;
+    }
+
+    public void setY(double y) {
+        this._y = y;
+    }
+
+    @NonNull
     @Override
     public String toString() {
-        return "(" + x + ", " + y + ")";
+        return "(" + _x + ", " + _y + ")";
     }
 }

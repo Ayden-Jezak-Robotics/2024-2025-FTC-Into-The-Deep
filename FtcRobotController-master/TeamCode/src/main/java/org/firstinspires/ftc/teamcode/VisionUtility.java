@@ -40,7 +40,7 @@ public class VisionUtility {
                .build();
     }
 
-    Point getPosition(AprilTagProcessor myAprilTagProcessor) {
+    Point getPosition(Point currentPosition) {
         double currentY = 0;
         double currentX = 0;
         List<AprilTagDetection> myAprilTagDetections;
@@ -52,6 +52,9 @@ public class VisionUtility {
 //                myAprilTagIDCode = tagID.id;
                 currentY = tagID.robotPose.getPosition().y;
                 currentX = tagID.robotPose.getPosition().x;
+            } else {
+                currentX = currentPosition.getX();
+                currentY = currentPosition.getY();
             }
         }
 

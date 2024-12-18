@@ -17,9 +17,9 @@ public class AutoOpTest extends LinearOpMode {
 
 
     // Declare PID controllers
-    private SanjuPIDController leftPIDController, rightPIDController, centerPIDController, turnPIDController;
+    private SanjuPIDController xPIDController, yPIDController, leftPIDController, rightPIDController, centerPIDController, turnPIDController;
 
-    // Declare utilities
+    private Point currentPosition = new Point(0, 0);
     private final ElapsedTime timer = new ElapsedTime();
     private static final double STRAIGHT_TOLERANCE = 50;
     private static final double TURN_TOLERANCE = 0.3;
@@ -31,6 +31,9 @@ public class AutoOpTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         initializePIDControllers();
+
+        // Declare utilities
+        currentPosition = myAprilTagProcessor.getPosition(currentPosition);
 
         while (!isStopRequested() && !gyros.calibrateIMU()) {
             sleep(100); // Short delay to avoid overloading the CPU
@@ -88,6 +91,35 @@ public class AutoOpTest extends LinearOpMode {
         motors.stopMotors();
     }
 
+    private void driveToPosition(Point target) {
+
+        currentPosition = myAprilTagProcessor.getPosition(currentPosition);
+
+        while (opModeIsActive()) { //&& !isTargetReached()) {
+
+            double x1 = currentPosition.getX();
+            double y1 = currentPosition.getY();
+
+            double x2 = target.getX();
+            double y2 = target.getY();
+
+            double deltaX = x1 - x2;
+            double deltaY = y1 - y2;
+
+            double errorX = (x2 * Constants.ticksPerInch()) - (x1 * Constants.ticksPerInch());
+            double errorY = (y2 * Constants.ticksPerInch()) - (x1 * Constants.ticksPerInch());
+
+//            double pidOutputX = xPIDController.calculateOutput()
+
+//            double distance = Math.sqrt((deltaX * deltaX + deltaY * deltaY));
+//            double angle = Math.atan2(deltaY, deltaX);
+
+
+        }
+
+
+    }
+
     private boolean isStraightTargetReached() {
         return Math.abs(leftPIDController.getError()) < STRAIGHT_TOLERANCE &&
                 Math.abs(rightPIDController.getError()) < STRAIGHT_TOLERANCE;
@@ -104,6 +136,9 @@ public class AutoOpTest extends LinearOpMode {
     }
 
     private void initializePIDControllers() {
+        xPIDController = new SanjuPIDController("straight");
+        yPIDController = new SanjuPIDController("strafe");
+
         leftPIDController = new SanjuPIDController("straight");
         rightPIDController = new SanjuPIDController("straight");
         centerPIDController = new SanjuPIDController("strafe");

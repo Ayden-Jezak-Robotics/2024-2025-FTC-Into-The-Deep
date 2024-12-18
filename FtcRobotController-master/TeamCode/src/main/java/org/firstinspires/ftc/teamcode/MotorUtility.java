@@ -7,14 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class MotorUtility {
 
-    private DcMotor backLeft, backRight, frontRight, frontLeft;
-    private DcMotor rightDeadWheel, leftDeadWheel, centerDeadWheel;
-
-    private static final double DEAD_WHEEL_DIAMETER = 60;
-
-    private static final double TICKS_PER_ROTATION = 8192;
-    private static final double WHEEL_CIRCUMFERENCE = (Math.PI * DEAD_WHEEL_DIAMETER) / 25.4;
-    private static final double TICKS_PER_INCH = TICKS_PER_ROTATION / WHEEL_CIRCUMFERENCE;
+    private final DcMotor backLeft, backRight, frontRight, frontLeft;
+    private final DcMotor rightDeadWheel, leftDeadWheel, centerDeadWheel;
 
     MotorUtility() {
         this.frontLeft = initializeMotor("frontLeft", DcMotorSimple.Direction.REVERSE);
