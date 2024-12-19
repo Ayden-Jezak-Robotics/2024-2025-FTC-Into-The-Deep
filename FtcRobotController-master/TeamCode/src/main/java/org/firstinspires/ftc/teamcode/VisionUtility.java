@@ -34,7 +34,7 @@ public class VisionUtility {
                .setShowStatsOverlay(true)
                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                .addProcessor(myAprilTagProcessor)
-               .setCameraResolution(new Size(1280, 720))
+               .setCameraResolution(new Size(640, 480))
                .setStreamFormat(VisionPortal.StreamFormat.YUY2)
                .enableLiveView(true)
                .build();
